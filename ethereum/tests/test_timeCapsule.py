@@ -45,7 +45,6 @@ def test_check_add_3_capsules_in_futur(contract):
 	contract.sendCapsule(message1, time_futur1, {'from': accounts[0]})
 	contract.sendCapsule(message2, time_futur2, {'from': accounts[0]})
 	contract.sendCapsule(message3, time_futur3, {'from': accounts[0]})
-	capsules = contract.getCapsules({'from': accounts[0]})
 
 	# get capsule 3
 	chain.mine(timedelta=5)
