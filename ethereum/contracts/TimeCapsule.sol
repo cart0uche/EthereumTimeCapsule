@@ -24,13 +24,14 @@ contract TimeCapsule {
    
     function getCapsules() external view returns(Capsule[] memory){
         Capsule[] memory capsulesAvailable = new Capsule[](capsules.length);
-        uint256 size = 0;
-
+ 
         for(uint256 i=0; i < capsules.length; i++)
         {
             if (capsules[i].date <= block.timestamp) {   
-                capsulesAvailable[size] = Capsule(capsules[i].sender, capsules[i].message, capsules[i].date);
-                size++;
+                capsulesAvailable[i] = Capsule(capsules[i].sender, capsules[i].message, capsules[i].date);
+            }
+            else {
+                capsulesAvailable[i] = Capsule(capsules[i].sender, "Not yet readable", capsules[i].date);
             }
         }
 
