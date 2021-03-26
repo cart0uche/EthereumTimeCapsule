@@ -30,11 +30,15 @@ function App() {
     if (refresh) {
       try {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+        // check if network is rinkeby
+        const connectedNetwork = await web3.eth.net.getNetworkType();
+        if (connectedNetwork != "rinkeby"){
+          return;
+        }
         var TimeCapsuleContract = new web3.eth.Contract(
           TimeCapsule.abi,
           "0x2f9F9B7Cc2d7C3cfE7adcB9C3DF9495E5CdAe7c8"
         );
-
         console.log("getCapsules()");
 
         _capsules = await TimeCapsuleContract.methods.getCapsules().call();
