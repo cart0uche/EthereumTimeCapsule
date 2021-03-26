@@ -22,13 +22,13 @@ def test_check_add_capsules_in_futur(contract):
 	# at chain.time() we get one capsule but it's an empty capsule
 	capsules = contract.getCapsules({'from': accounts[0]})
 	assert 1 == len(capsules)
-	assert (accounts[0], 'Not yet readable', time_futur) == capsules[0]
+	assert (accounts[0], '', time_futur, False) == capsules[0]
 
 	# at chain.time()+5 we get one capsule
 	chain.mine(timedelta=5)
 	capsules = contract.getCapsules({'from': accounts[0]})
 	assert 1 == len(capsules)
-	assert (accounts[0], message, time_futur) == capsules[0]
+	assert (accounts[0], message, time_futur, True) == capsules[0]
 
 
 def test_check_add_3_capsules_in_futur(contract):
@@ -50,23 +50,23 @@ def test_check_add_3_capsules_in_futur(contract):
 	chain.mine(timedelta=5)
 	capsules = contract.getCapsules({'from': accounts[0]})
 	assert 3 == len(capsules)
-	assert (accounts[0], 'Not yet readable', time_futur1) == capsules[0]
-	assert (accounts[0], 'Not yet readable', time_futur2) == capsules[1]
-	assert (accounts[0], message3          , time_futur3) == capsules[2]
+	assert (accounts[0], ''      , time_futur1, False) == capsules[0]
+	assert (accounts[0], ''      , time_futur2, False) == capsules[1]
+	assert (accounts[0], message3, time_futur3, True ) == capsules[2]
 
 	# get capsule 3 and 1
 	chain.mine(timedelta=45)
 	capsules = contract.getCapsules({'from': accounts[0]})
 	assert 3 == len(capsules)
-	assert (accounts[0], message1          , time_futur1) == capsules[0]
-	assert (accounts[0], 'Not yet readable', time_futur2) == capsules[1]
-	assert (accounts[0], message3          , time_futur3) == capsules[2]
+	assert (accounts[0], message1, time_futur1, True ) == capsules[0]
+	assert (accounts[0], ''      , time_futur2, False) == capsules[1]
+	assert (accounts[0], message3, time_futur3, True ) == capsules[2]
 
 	# get all capsules
 	chain.mine(timedelta=50)
 	capsules = contract.getCapsules({'from': accounts[0]})
 	assert 3 == len(capsules)
-	assert (accounts[0], message1, time_futur1) == capsules[0]
-	assert (accounts[0], message2, time_futur2) == capsules[1]
-	assert (accounts[0], message3, time_futur3) == capsules[2]
+	assert (accounts[0], message1, time_futur1, True) == capsules[0]
+	assert (accounts[0], message2, time_futur2, True) == capsules[1]
+	assert (accounts[0], message3, time_futur3, True) == capsules[2]
 	

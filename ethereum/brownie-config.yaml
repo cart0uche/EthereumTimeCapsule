@@ -1,5 +1,5 @@
 networks:
-    default: rinkeby
+    default: rinkeby #development
 
     rinkeby:
       host: https://rinkeby.infura.io/v3/$WEB3_INFURA_PROJECT_ID
@@ -8,4 +8,4 @@ networks:
 # enable output of development artifacts to load with react
 dev_deployment_artifacts: true
 
-# TimeCapsule deployed at: 0x1B878C20fCd156805848739c359069182ed33837
+# TimeCapsule deployed at: 0x2f9F9B7Cc2d7C3cfE7adcB9C3DF9495E5CdAe7c8

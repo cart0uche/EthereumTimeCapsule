@@ -10,6 +10,7 @@ contract TimeCapsule {
         address sender;
         string message;
         uint256 date;
+        bool visible;
     } 
     
     Capsule[] private capsules;
@@ -18,7 +19,7 @@ contract TimeCapsule {
     }
     
     function sendCapsule(string memory message, uint256 dateTimeRecoverMessage) external {
-        Capsule memory newCapsule = Capsule(msg.sender, message, dateTimeRecoverMessage);
+        Capsule memory newCapsule = Capsule(msg.sender, message, dateTimeRecoverMessage, false);
         capsules.push(newCapsule);
     }
    
@@ -28,10 +29,10 @@ contract TimeCapsule {
         for(uint256 i=0; i < capsules.length; i++)
         {
             if (capsules[i].date <= block.timestamp) {   
-                capsulesAvailable[i] = Capsule(capsules[i].sender, capsules[i].message, capsules[i].date);
+                capsulesAvailable[i] = Capsule(capsules[i].sender, capsules[i].message, capsules[i].date, true);
             }
             else {
-                capsulesAvailable[i] = Capsule(capsules[i].sender, "Not yet readable", capsules[i].date);
+                capsulesAvailable[i] = Capsule(capsules[i].sender, "", capsules[i].date, false);
             }
         }
 

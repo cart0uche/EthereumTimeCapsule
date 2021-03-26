@@ -6,7 +6,8 @@ import {
   Button,
   Message,
   Image,
-  Container
+  Container,
+  Checkbox
 } from "semantic-ui-react";
 import { DateTimeInput } from "semantic-ui-calendar-react";
 import PageHeader from "./components/PageHeader";
@@ -21,6 +22,7 @@ function App() {
   const [dateTime, setDateTime] = useState("");
   const [refresh, setRefresh] = useState(true);
   const [capsules, setCapsules] = useState([]);
+  const [showFuturCapsules, setShowFuturCapsules] = useState(false);
 
 
   useEffect( async () => {
@@ -30,7 +32,7 @@ function App() {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         var TimeCapsuleContract = new web3.eth.Contract(
           TimeCapsule.abi,
-          "0x1B878C20fCd156805848739c359069182ed33837"
+          "0x2f9F9B7Cc2d7C3cfE7adcB9C3DF9495E5CdAe7c8"
         );
 
         console.log('getCapsules()')
@@ -57,7 +59,7 @@ function App() {
       const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
       var TimeCapsuleContract = new web3.eth.Contract(
         TimeCapsule.abi,
-        "0x1B878C20fCd156805848739c359069182ed33837"
+        "0x2f9F9B7Cc2d7C3cfE7adcB9C3DF9495E5CdAe7c8"
       );
       const accounts = await web3.eth.getAccounts();
       var unixtime = Date.parse(dateTime)/1000
@@ -79,6 +81,11 @@ function App() {
   let renderCapsules = () => {
     return capsules.slice(0).reverse().map((capsule)=>{
       console.log('renderCapsules')
+      console.log(showFuturCapsules)
+      if (!showFuturCapsules && !capsule['visible'])
+      {
+        return(<div/>);
+      }
       var dateTime = new Date(capsule['date'] * 1000).toLocaleString();
       const {Row, Cell} = Table;
       return (
@@ -106,7 +113,12 @@ function App() {
         <Form.Group widths="equal">
           <Form.TextArea
             fluid
-            onChange={(event) => setMessage(event.target.value)}
+            onChange={
+              (event) => {
+                setMessage(event.target.value);
+              }
+            }
+            placeholder='Write your message here'
           />
 
           <DateTimeInput
@@ -132,10 +144,19 @@ function App() {
         <Message error header="Oops!" content={messageErr} />
       </Form>
 
+      <Checkbox 
+      label="Show futur capsules"
+      toggle 
+      onChange={ (event, data) =>{
+        setShowFuturCapsules(!showFuturCapsules);
+      } 
+    }
+      />
+
       <Table >
       <Header>
         <Row>
-           <HeaderCell width='7'>Address</HeaderCell>
+           <HeaderCell width='7'>From</HeaderCell>
            <HeaderCell>Message</HeaderCell>
            <HeaderCell>Date</HeaderCell>
         </Row>
