@@ -25,6 +25,7 @@ function App() {
   const [capsules, setCapsules] = useState([]);
   const [showFuturCapsules, setShowFuturCapsules] = useState(false);
 
+
   useEffect(async () => {
     let _capsules;
     if (refresh) {
@@ -42,6 +43,7 @@ function App() {
         console.log("getCapsules()");
 
         _capsules = await TimeCapsuleContract.methods.getCapsules().call();
+
       } catch (error) {
         setMessageErr(error.message);
       }
@@ -63,19 +65,23 @@ function App() {
         "0x2f9F9B7Cc2d7C3cfE7adcB9C3DF9495E5CdAe7c8"
       );
       const accounts = await web3.eth.getAccounts();
+
       var unixtime = Date.parse(dateTime) / 1000;
 
       await TimeCapsuleContract.methods
         .sendCapsule(message, unixtime)
         .send({ from: accounts[0] });
+
+      setMessageErr("");
+      setMessage("");
+      setDateTime("");
+
     } catch (error) {
       console.log(error.message);
       setMessageErr(error.message);
     }
 
     setLoading(false);
-    setMessage("");
-    setDateTime("");
     setRefresh(true);
   }
 
@@ -133,6 +139,7 @@ function App() {
           <Form.Group widths="equal">
             <Form.TextArea
               fluid
+              value={message}
               onChange={(event) => {
                 setMessage(event.target.value);
               }}
@@ -160,6 +167,7 @@ function App() {
           </Grid>
 
           <Message error header="Oops!" content={messageErr} />
+
         </Form>
 
         <Checkbox
@@ -168,6 +176,7 @@ function App() {
           onChange={(event, data) => {
             setShowFuturCapsules(!showFuturCapsules);
           }}
+          style={{ marginTop: "15px" }}
         />
 
         <Table>
