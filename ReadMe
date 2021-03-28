@@ -10,3 +10,5 @@ To lauch test :
 >cd ethereum
 >brownie compile
 >brownie test
+
+Licence : MIT
