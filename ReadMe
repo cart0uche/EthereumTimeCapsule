@@ -1,4 +1,4 @@
-This is a projet for Bouties "Ethereum Time Capsules" https://gitcoin.co/issue/Ideamarket/gitcoin-bounties/17/100025067
+This is a projet for Bounties "Ethereum Time Capsules" https://gitcoin.co/issue/Ideamarket/gitcoin-bounties/17/100025067
 The server is available here https://ethereum-time-capsule.vercel.app/
 
 
@@ -6,7 +6,7 @@ To start the server :
 >cd react_time_capsule
 >npm start
 
-To lauch test :
+To launch test :
 >cd ethereum
 >brownie compile
 >brownie test
