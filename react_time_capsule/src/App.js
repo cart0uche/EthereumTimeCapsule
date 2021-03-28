@@ -32,7 +32,7 @@ function App() {
         const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
         // check if network is rinkeby
         const connectedNetwork = await web3.eth.net.getNetworkType();
-        if (connectedNetwork != "rinkeby"){
+        if (connectedNetwork != "rinkeby") {
           return;
         }
         var TimeCapsuleContract = new web3.eth.Contract(
@@ -91,13 +91,23 @@ function App() {
         }
         var dateTime = new Date(capsule["date"] * 1000).toLocaleString();
         const { Row, Cell } = Table;
-        return (
-          <Row>
-            <Cell>{capsule["sender"]}</Cell>
-            <Cell>{capsule["message"]}</Cell>
-            <Cell>{dateTime}</Cell>
-          </Row>
-        );
+        if (!capsule["visible"]) {
+          return (
+            <Row disabled>
+              <Cell>{capsule["sender"]}</Cell>
+              <Cell>Not yet available</Cell>
+              <Cell>{dateTime}</Cell>
+            </Row>
+          );
+        } else {
+          return (
+            <Row>
+              <Cell>{capsule["sender"]}</Cell>
+              <Cell>{capsule["message"]}</Cell>
+              <Cell>{dateTime}</Cell>
+            </Row>
+          );
+        }
       });
   };
 
